@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 import indexRouter from './routes/indexRoutes'
 import gameRouter from './routes/gameRoutes'
+import devRouter from './routes/devRoutes'
 
 class Server{
   public app : express.Application;
@@ -11,25 +12,19 @@ class Server{
     this.config();
     this.route();
   }
-
   config(){
     const MONGO_URI = 'mongodb://localhost:27017/testDB';
-    //mongoose.set('useFindAndModify',true);
-    mongoose.connect(MONGO_URI,{
-      /*useNewUrlParser: true,
-      useCreateIndex: true
-      */
-    }).then(db => console.log('db is connected'));
-    //Settings
+    mongoose.connect(MONGO_URI,{}).then(db => console.log('db is connected'));
+
     this.app.set('port',process.env.PORT || 3000);
     
-    //Middlewares
     this.app.use(express.json());
 
   }
   route(){
     this.app.use(indexRouter);
     this.app.use('/api',gameRouter);
+    this.app.use('/dev',devRouter);
   }
   start(){
     this.app.listen(this.app.get('port'));

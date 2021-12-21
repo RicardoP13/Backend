@@ -16,16 +16,16 @@ class GameRoutes{
 
   //DEVELOPING FUNCTIONS
   async createTable(request:Request, response:Response){
-    const {type,fields} = request.body;
-    const newTable = new ChessTable({id,fields})
+    const {id,fields} = request.body;
+    const newTable = new ChessTable({id,fields});
     await newTable.save();
-    console.log(newTable)
-    response.json('recieved')
+    console.log(newTable);
+    response.json('recieved');
   }
   async del(request:Request, response:Response){
     const {id,fields} = request.body;
-    const table = await ChessTable.findOneAndDelete({id})
-    response.json('deleted')
+    const table = await ChessTable.findOneAndDelete({id});
+    response.json('deleted');
 
   }
 

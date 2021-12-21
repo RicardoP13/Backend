@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const gameRoutes_1 = __importDefault(require("./routes/gameRoutes"));
+const devRoutes_1 = __importDefault(require("./routes/devRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -15,20 +16,14 @@ class Server {
     }
     config() {
         const MONGO_URI = 'mongodb://localhost:27017/testDB';
-        //mongoose.set('useFindAndModify',true);
-        mongoose_1.default.connect(MONGO_URI, {
-        /*useNewUrlParser: true,
-        useCreateIndex: true
-        */
-        }).then(db => console.log('db is connected'));
-        //Settings
+        mongoose_1.default.connect(MONGO_URI, {}).then(db => console.log('db is connected'));
         this.app.set('port', process.env.PORT || 3000);
-        //Middlewares
         this.app.use(express_1.default.json());
     }
     route() {
         this.app.use(indexRoutes_1.default);
         this.app.use('/api', gameRoutes_1.default);
+        this.app.use('/dev', devRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'));
