@@ -1,39 +1,41 @@
 import {Request,Response,Router} from 'express';
 
-import ChessTable from '../models/table';
+import ChessGame from '../models/game';
+import Controller from '../controllers/mainController'
+
 
 class GameRoutes{
+  
   public router : Router;
+  
   constructor(){
     this.router = Router();
     this.routes();
   }
 
   async getTable(request:Request, response:Response){
-    const table = await ChessTable.find();
-    response.json(table);
+    response.json(await Controller.getTable());
   }
 
-  //DEVELOPING FUNCTIONS
-  async createTable(request:Request, response:Response){
-    const {id,fields} = request.body;
-    const newTable = new ChessTable({id,fields});
-    await newTable.save();
-    console.log(newTable);
-    response.json('recieved');
+  async postGame(request:Request, response:Response){
+    response.json(await Controller.restartGame());
   }
+
+  async putPiece(request:Request, response:Response){
+    const {position,new_position} = request.body;
+    response.json(await Controller.movePiece(position,new_position));
+  }
+
   async del(request:Request, response:Response){
     const {id,fields} = request.body;
-    const table = await ChessTable.findOneAndDelete({id});
+    const table = await ChessGame.findOneAndDelete({id});
     response.json('deleted');
-
   }
 
   routes(){
-    this.router.get('/game', this.getTable);
-    //DEV ROUTES
-    this.router.post('/game', this.createTable);
-    this.router.delete('/game', this.del);
+    this.router.get('/', this.getTable);//List
+    this.router.post('/', this.postGame); //restart
+    this.router.put('/', this.putPiece); //move
   }
 }
 

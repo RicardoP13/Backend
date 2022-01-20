@@ -1,0 +1,1 @@
+{"version":3,"file":"moveController.js","sourceRoot":"","sources":["../../../src/controllers/moveController.ts"],"names":[],"mappings":";AAAA,MAAM,cAAc;IACnB,gBAAe,CAAC;IAEhB,YAAY,CAAC,KAAU,EAAE,YAA2B,EAAE,eAAuB,EAAE,KAAU;QACxF,IAAG,CAAC,CAAC,KAAK,EAAC;YACV,OAAO,IAAI,CAAC;SACZ;QACD,OAAO,KAAK,CAAC;IACd,CAAC;CACD"}

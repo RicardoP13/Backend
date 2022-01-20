@@ -12,43 +12,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
 const game_1 = __importDefault(require("../models/game"));
-const mainController_1 = __importDefault(require("../controllers/mainController"));
-class GameRoutes {
-    constructor() {
-        this.router = (0, express_1.Router)();
-        this.routes();
-    }
-    getTable(request, response) {
+class GameController {
+    contructor() { }
+    getTable() {
         return __awaiter(this, void 0, void 0, function* () {
-            response.json(yield mainController_1.default.getTable());
+            const game = yield game_1.default.find();
+            return game[0];
         });
     }
-    postGame(request, response) {
+    getLastMove() {
         return __awaiter(this, void 0, void 0, function* () {
-            response.json(yield mainController_1.default.restartGame());
+            const game = yield this.getTable();
+            return game.last_move_color;
         });
     }
-    putPiece(request, response) {
+    restart(board) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { position, new_position } = request.body;
-            response.json(yield mainController_1.default.movePiece(position, new_position));
+            yield game_1.default.findOneAndUpdate({}, { last_move_color: 'B', board: board });
+            return yield this.getTable();
         });
     }
-    del(request, response) {
+    updateStatus(board, last_move_color) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, fields } = request.body;
-            const table = yield game_1.default.findOneAndDelete({ id });
-            response.json('deleted');
+            yield game_1.default.findOneAndUpdate({}, { last_move_color: last_move_color, board: board });
         });
-    }
-    routes() {
-        this.router.get('/', this.getTable); //List
-        this.router.post('/', this.postGame); //restart
-        this.router.put('/', this.putPiece); //move
     }
 }
-const gameRoutes = new GameRoutes();
-exports.default = gameRoutes.router;
-//# sourceMappingURL=gameRoutes.js.map
+const gameController = new GameController();
+exports.default = gameController;
+//# sourceMappingURL=gameController.js.map
