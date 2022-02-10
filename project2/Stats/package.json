@@ -1,0 +1,23 @@
+{
+  "name": "UserContainer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ts": "tsc -w",
+    "dev": "nodemon ./dist/index.js",
+    "start": "tsc && node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/amqp": "^0.2.5",
+    "@types/amqplib": "^0.8.2",
+    "axios": "^0.25.0",
+    "amqp": "^0.2.7",
+    "amqplib": "^0.8.0",
+    "typescript": "^4.5.5"
+  }
+}

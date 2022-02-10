@@ -13,7 +13,7 @@ amqp.connect(
       throw err;
     }
 
-    conn.createChannel(function (err1: any, ch: any) {
+    conn.createChannel(async function (err1: any, ch: any) {
       if (err1) {
         throw err1;
       }
@@ -24,7 +24,8 @@ amqp.connect(
         durable: false,
       });
       console.log('waiting for messages...');
-      ch.consume(queue, function (msg: any) {
+      await ch.consume(queue, function (msg: any) {
+        ch.ack(msg);
         console.log(" [x] Received %s", msg.content.toString());
       }),
         { noAck: true }
